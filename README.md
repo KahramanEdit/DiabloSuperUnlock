@@ -2,7 +2,7 @@
 
 An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off Superior Pic Quality first"* restriction. Diablo mode and Superior Pic Quality (Super Resolution) can now be used **at the same time**.
 
-![Diablo mode and Super Resolution running together](ingame.jpg)
+![Diablo mode and Super Resolution running together](Ingame.jpg)
 
 ## Features
 
