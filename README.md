@@ -2,9 +2,7 @@
 
 An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off Superior Pic Quality first"* restriction. Diablo mode and Superior Pic Quality (Super Resolution) can now be used **at the same time**.
 
-<p align="center">
-  <img src="ingame.jpg" alt="Diablo mode and Super Resolution running together" width="300"/>
-</p>
+![Diablo mode and Super Resolution running together](ingame.jpg)
 
 ## Features
 
@@ -26,9 +24,7 @@ An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off
 2. Open **LSPosed** → **Modules** → **Diablo Super Unlock** → **Enable**
 3. **Scope:** select **only** `cn.nubia.gameassist`
 
-<p align="center">
-  <img src="Targetapps.jpg" alt="LSPosed scope selection" width="300"/>
-</p>
+![LSPosed scope selection](Targetapps.jpg)
 
 4. Force-stop GameAssist or reboot your device
 
