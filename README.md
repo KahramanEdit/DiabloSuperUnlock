@@ -2,11 +2,20 @@
 
 An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off Superior Pic Quality first"* restriction. Diablo mode and Superior Pic Quality (Super Resolution) can now be used **at the same time**.
 
+## Screenshots
+
+**Diablo mode + Superior Pic Quality:**
+
 ![Diablo mode and Super Resolution running together](Ingame.jpg)
+
+**Dengeli (Balance) mode + Superior Pic Quality:**
+
+![Dengeli mode and Super Resolution running together](Ingame2.jpg)
 
 ## Features
 
 - ✅ Diablo mode + Superior Pic Quality work together
+- ✅ Dengeli (Balance) mode + Superior Pic Quality work together
 - ✅ Only the GameAssist check is bypassed — the actual Super Resolution stays enabled
 - ✅ No system modifications, pure LSPosed hook
 - ✅ Tiny footprint (~10 KB APK)
@@ -32,17 +41,29 @@ An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off
 
 1. Open Game Space and launch a game
 2. Enable **Superior Pic Quality** from the Game Space panel
-3. Switch to **Diablo mode**
+3. Switch to **Diablo** or **Dengeli (Balance)** mode
 4. Both features stay active — no more blocking toast 🎉
 
 ## Technical Details
 
-**Hook point:**
-- **Class:** `cn.nubia.gameassist.performance.PerformanceModeController`
-- **Method:** `isOpenSuperResolution()`
-- **Behavior:** Always returns `false`
+**Hook points:**
 
-This bypasses the check inside `BiabloTile.handleClick()`:
+1. `cn.nubia.gameassist.performance.PerformanceModeController`
+   - Method: `isOpenSuperResolution()`
+   - Behavior: Always returns `false`
+   - Purpose: Bypasses the check inside `BiabloTile.handleClick()` (Diablo mode)
+
+2. `cn.nubia.plugin.superresolution.SuperResolutionViewController`
+   - Method: `isEconomizeOrBalanceMode(int)`
+   - Behavior: Always returns `false`
+   - Purpose: Prevents Super Resolution from being auto-disabled in Dengeli/Eko modes
+
+3. `cn.nubia.gameassist.performance.PerformanceModeController`
+   - Method: `getPerformanceMode(String)`
+   - Behavior: Returns `3` instead of `5` when called from `SuperResolutionTile`
+   - Purpose: Bypasses the "Please turn off Diablo mode first" toast
+
+Example of the Diablo block we bypass:
 
 ```java
 if (this.mPerformanceModeController.isOpenSuperResolution()) {
@@ -51,7 +72,7 @@ if (this.mPerformanceModeController.isOpenSuperResolution()) {
 }
 ```
 
-The actual Super Resolution state is untouched — we only trick GameAssist's *check* method.
+The actual Super Resolution state is untouched — we only trick GameAssist's *check* methods.
 
 ## Build
 
