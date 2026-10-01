@@ -6,7 +6,7 @@ An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off
 
 This release contains **3 modules** — install the ones you need.
 
-### 1. DiabloSuperUnlock_v1.2.apk (LSPosed)
+### 1. DiabloSuperUnlock_v1.1.apk (LSPosed)
 
 Removes the restriction between **Diablo mode** and **Superior Pic Quality (Super Resolution)**. Both can now run at the same time.
 
