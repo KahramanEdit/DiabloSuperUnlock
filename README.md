@@ -2,6 +2,45 @@
 
 An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off Superior Pic Quality first"* restriction. Diablo mode and Superior Pic Quality (Super Resolution) can now be used **at the same time**.
 
+## 📦 Included Modules
+
+This release contains **3 modules** — install the ones you need.
+
+### 1. DiabloSuperUnlock_v1.2.apk (LSPosed)
+
+Removes the restriction between **Diablo mode** and **Superior Pic Quality (Super Resolution)**. Both can now run at the same time.
+
+- ✅ Diablo mode + Superior Pic Quality work together
+- ✅ Dengeli (Balance) mode + Superior Pic Quality work together
+- ✅ Pure LSPosed hook, no system modifications
+- ✅ Tiny footprint (~10 KB APK)
+
+**Install:** LSPosed → Modules → Enable → Scope: `cn.nubia.gameassist` only
+
+### 2. DiabloUnleash.zip (Magisk)
+
+**Maximum frequency unlock.** Unlocks Diablo-level CPU/GPU max frequencies on **ALL** performance modes (Eko, Denge, Rise, Diablo). Uses Eko-level minimum frequencies so the device stays cool when idle, but can jump to full power whenever needed.
+
+- ✅ cpu0-5 max → 3.6 GHz on every mode
+- ✅ cpu6-7 max → 4.6 GHz on every mode
+- ✅ GPU max → 1200 MHz
+- ✅ Minimum frequencies stay at Eko level (787/883 MHz) for idle cooling
+- ✅ Cool when idle, fast when needed
+
+**Install:** Magisk → Modules → Install from storage → Reboot
+
+### 3. gpp-enable-module.zip (Magisk)
+
+**Enables GPP (Game Performance Profile) on all games.** Forces `persist.vendor.gpp.allgame.enable=1` so that Superior Pic Quality can be used in every game — not just the whitelisted ones.
+
+- ✅ Superior Pic Quality available in all games
+- ✅ Forces `persist.vendor.gpp.allgame.enable=1` at boot
+- ✅ Keeps the flag alive in case the system resets it
+
+**Install:** Magisk → Modules → Install from storage → Reboot
+
+---
+
 ## Screenshots
 
 **Diablo mode + Superior Pic Quality:**
@@ -12,30 +51,27 @@ An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off
 
 ![Dengeli mode and Super Resolution running together](Ingame2.jpg)
 
-## Features
-
-- ✅ Diablo mode + Superior Pic Quality work together
-- ✅ Dengeli (Balance) mode + Superior Pic Quality work together
-- ✅ Only the GameAssist check is bypassed — the actual Super Resolution stays enabled
-- ✅ No system modifications, pure LSPosed hook
-- ✅ Tiny footprint (~10 KB APK)
-
 ## Requirements
 
 - Root (Magisk / KernelSU)
-- LSPosed
+- LSPosed (only for the APK module)
 - Android 14+ (MyOS / RedMagic OS)
 - RedMagic device (tested on **NX809J / RedMagic 11 Pro**)
 
 ## Installation
 
+**For the LSPosed module (DiabloSuperUnlock.apk):**
 1. Install the APK
 2. Open **LSPosed** → **Modules** → **Diablo Super Unlock** → **Enable**
 3. **Scope:** select **only** `cn.nubia.gameassist`
+4. Force-stop GameAssist or reboot
 
 ![LSPosed scope selection](Targetapps.jpg)
 
-4. Force-stop GameAssist or reboot your device
+**For the Magisk modules (DiabloUnleash.zip / gpp-enable-module.zip):**
+1. Open **Magisk** → **Modules**
+2. **Install from storage** → select the ZIP
+3. **Reboot**
 
 ## Usage
 
@@ -46,7 +82,7 @@ An LSPosed module for **RedMagic GameAssist** that removes the *"Please turn off
 
 ## Technical Details
 
-**Hook points:**
+**DiabloSuperUnlock — Hook points:**
 
 1. `cn.nubia.gameassist.performance.PerformanceModeController`
    - Method: `isOpenSuperResolution()`
@@ -72,7 +108,17 @@ if (this.mPerformanceModeController.isOpenSuperResolution()) {
 }
 ```
 
-The actual Super Resolution state is untouched — we only trick GameAssist's *check* methods.
+**DiabloUnleash — What it does:**
+
+A background `service.sh` watcher that:
+- Every time the performance mode changes, writes max frequencies to `scaling_max_freq` and `msm_performance/parameters/cpu_max_freq`
+- Every 2 seconds, re-applies min frequencies to keep the device cool when idle
+- Termal-engine can still throttle at 43°C+ (safety net)
+
+**gpp-enable-module — What it does:**
+
+- Sets `persist.vendor.gpp.allgame.enable=1` via `system.prop`
+- Keeps re-applying it via `service.sh` in case the system resets it
 
 ## Build
 
@@ -84,7 +130,7 @@ The actual Super Resolution state is untouched — we only trick GameAssist's *c
 
 ## Warning
 
-This module hooks into a system app. Misuse may cause bootloops or instability. Use at your own risk.
+These modules hook into system apps / modify sysfs. Misuse may cause bootloops or instability. Use at your own risk.
 
 ## License
 
